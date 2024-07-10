@@ -57,9 +57,9 @@ const DateGrid: React.FC = ({   serviceType,
                   }}>
                 <Layout>
                     <Content>
-                        {(!isBooking && appointments.length) ?
+                        {(!isBooking && appointments.length && provider) ?
                             <div style={{minWidth: '100%', margin: '0 25px', display: 'block'}}>
-                                <h2>Your appointment with {provider.profile.name} is on:</h2>
+                                <h2>Your appointment with {provider?.profile?.name} is on:</h2>
                                 <h4>{appointments[appointments.length - 1].date} @ {appointments[appointments.length - 1].time}</h4>
                             </div>
                             : showTime ?

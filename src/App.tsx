@@ -15,8 +15,11 @@ function App() {
         <>
             {/*@ts-ignore*/}
             <Site>
-                <Routes><Route path={'/mental'} element={<Service service={'psychiatric care'} providerIndex={5} data-aos={'fade-in'}/>}/>
-                    <Route path={'/support'} element={<Service service={'support group'} providerIndex={5} data-aos={'fade-in'}/>}/>
+                <Routes>
+                    <Route path={'/wellness'} element={<Service service={'primary care'} providerIndex={1} data-aos={'fade-in'}/>}/>
+                    <Route path={'/family'} element={<Service service={'reproductive health care'} providerIndex={0} data-aos={'fade-in'}/>}/>
+                    <Route path={'/psych'} element={<Service service={'psychiatric care'} providerIndex={0} data-aos={'fade-in'}/>}/>
+                    <Route path={'/support'} element={<Service service={'support group'} providerIndex={1} data-aos={'fade-in'}/>}/>
                     <Route path={'/therapy'} element={<Service service={'therapy'} providerIndex={0} data-aos={'fade-in'}/>}/>
                     <Route path={'/providers'} element={<Providers data-aos={'fade-in'}/>}/>
                     <Route path={'/'} element={<Home data-aos={'fade-in'}/>}/>

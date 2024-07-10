@@ -10,10 +10,10 @@ export default {
         return 'jsmith'
     },
     healthCheck: async ()=>{
-      return "I'm alive";
-      //   const res = await axios.get('/')
+      //return "I'm alive";
+      const {data} = await axios.get('/')
 
-      // return res.data;
+      return data;
     },
     getMedicalProfessionals : async () => {
         return data;

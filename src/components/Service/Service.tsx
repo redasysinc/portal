@@ -14,7 +14,7 @@ import useServiceStore from "../../store/service-store.ts";
 const {Content, Header, Footer, Sider} = Layout
 
 function Therapy({service, providerIndex}) {
-    const {serviceType, setServiceType, provider, setProvider, isBooking, setIsBooking, appointments, timeSlots, addAppointment, getOpenTimeslots} = useServiceStore()
+    const {message, healthCheck, serviceType, setServiceType, provider, setProvider, isBooking, setIsBooking, appointments, timeSlots, addAppointment, getOpenTimeslots} = useServiceStore()
     const random = consecutiveUniqueRandom(0, therapists.length - 1);
     const selectMapItem = (e) => {
         const v = therapists[random()]
@@ -27,12 +27,17 @@ function Therapy({service, providerIndex}) {
 
     useEffect(() => {
         setServiceType(service)
-    }, []);
+        if(!message){
+            healthCheck()
+        }
+
+    }, [message]);
 
     return (
         <>
             <Row>
                 <Col span={(isBooking || (!isBooking && appointments.length)) ? 12 : 24}>
+                    <h2>{message}</h2>
                     {provider ?
                         <Card style={{
                             fontSize: '1.25rem',

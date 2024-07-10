@@ -3,8 +3,11 @@ import {create} from 'zustand';
 import {User} from "../types/user.ts";
 import {Appointment} from "../types/appointment.ts";
 import {TimeSlot} from "../types/time-slot.ts";
+import api from '../api/api';
 
 export interface ITherapyStore {
+    healthCheck: Function,
+    message: string,
     serviceType?: string,
     setServiceType: Function,
     provider?: any,
@@ -69,8 +72,11 @@ const useServiceStore = create((set) => ({
         } else {
             set((state) => ({timeSlots: result}))
         }
-
-
+    },
+    message: '',
+    healthCheck: async ()=>{
+        const msg = await api.healthCheck();
+        set((state)=>({message: msg}))
     }
 }))
 
