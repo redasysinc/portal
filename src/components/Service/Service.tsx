@@ -4,30 +4,47 @@
 import React, {useEffect, useState} from 'react'
 import {Row, Col, Layout, Card, List, Button} from 'antd'
 import ProviderMapbox from "../Mapbox/ProviderMapbox.tsx";
-import therapists, {preamble} from "../Therapy/therapists.ts";
 import {consecutiveUniqueRandom} from "unique-random";
 import {ClockCircleTwoTone, PhoneTwoTone} from "@ant-design/icons";
 import DateGrid from '../DateGrid/DateGrid'
 import useServiceStore from "../../store/service-store.ts";
-
+import therapists, {preamble} from "./therapists.ts";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const {Content, Header, Footer, Sider} = Layout
 
-function Therapy({service, providerIndex}) {
-    const {message, healthCheck, serviceType, setServiceType, provider, setProvider, isBooking, setIsBooking, appointments, timeSlots, addAppointment, getOpenTimeslots} = useServiceStore()
+function Service({service, providerIndex}) {
+    const {
+        message,
+        setMessage,
+        healthCheck,
+        serviceType,
+        setServiceType,
+        provider,
+        setProvider,
+        isBooking,
+        setIsBooking,
+        currentAppointment,
+        appointments,
+        addAppointment,
+        resetAppointment,
+        timeSlots,
+        getOpenTimeslots
+    } = useServiceStore()
     const random = consecutiveUniqueRandom(0, therapists.length - 1);
     const selectMapItem = (e) => {
         const v = therapists[random()]
         console.log(v)
         setProvider(v)
     }
-    const ds = therapists.slice(0,5).map(x => {
+    const ds = therapists.slice(0, 5).map(x => {
         return x.profile.name
     })
 
     useEffect(() => {
         setServiceType(service)
-        if(!message){
+        if (!message) {
             //healthCheck()
         }
 
@@ -36,8 +53,7 @@ function Therapy({service, providerIndex}) {
     return (
         <>
             <Row>
-                <Col span={(isBooking || (!isBooking && appointments.length)) ? 12 : 24}>
-                    <h2>{message}</h2>
+                <Col span={(isBooking || (!isBooking && currentAppointment)) ? 12 : 24}>
                     {provider ?
                         <Card style={{
                             fontSize: '1.25rem',
@@ -55,6 +71,7 @@ function Therapy({service, providerIndex}) {
                                         <Button style={{marginRight: '30px'}} type={'danger'} onClick={() => {
                                             setProvider(null)
                                             setIsBooking(false)
+                                            resetAppointment()
                                         }}>Reset</Button>
                                         <Button style={{marginRight: '30px'}} type={'primary'} onClick={() => {
                                             console.log('click')
@@ -70,13 +87,17 @@ function Therapy({service, providerIndex}) {
                             margin: '0 auto 0 5px'
                         }}>{preamble(service)}</Card>}
                 </Col>
-                {(isBooking || (!isBooking && appointments.length)) &&
-                    <DateGrid serviceType={service} isBooking={isBooking} setIsBooking={setIsBooking}
-                    provider={provider}
-                    appointments={appointments}
-                    addAppointment={addAppointment}
-                    getOpenTimeslots={getOpenTimeslots}
-                    timeSlots={timeSlots}/>
+                {(isBooking || (!isBooking && currentAppointment)) &&
+                    <DateGrid
+                        message={message}
+                        setMessage={setMessage}
+                        serviceType={service} isBooking={isBooking} setIsBooking={setIsBooking}
+                        provider={provider}
+                        appointments={appointments}
+                        currentAppointment={currentAppointment}
+                        addAppointment={addAppointment}
+                        getOpenTimeslots={getOpenTimeslots}
+                        timeSlots={timeSlots}/>
                 }
             </Row>
             <Row gutter={0}>
@@ -106,4 +127,4 @@ function Therapy({service, providerIndex}) {
 }
 
 
-export default Therapy;
+export default Service;

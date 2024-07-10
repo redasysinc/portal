@@ -8,6 +8,7 @@ import api from '../api/api';
 export interface ITherapyStore {
     healthCheck: Function,
     message: string,
+    setMessage: Function,
     serviceType?: string,
     setServiceType: Function,
     provider?: any,
@@ -17,6 +18,7 @@ export interface ITherapyStore {
     user?: User,
     setUser: Function,
     appointments?: Appointment[],
+    currentAppointment?: Appointment,
     addAppointment: Function,
     getOpenTimeslots: Function,
     timeSlots: TimeSlot[],
@@ -39,11 +41,14 @@ const useServiceStore = create((set) => ({
     setUser: (usr) => {
         set((state) => ({user: usr}))
     },
+    currentAppointment: null,
     appointments: [],
     addAppointment: (apt: { date: string; provider: any; patient: {}; time: any; type: any }) => {
         console.log('addApt', apt)
+        set((state)=>({currentAppointment: apt}))
         set((state) => ({appointments: [...state.appointments, apt]}))
     },
+    resetAppointment: ()=>set((state)=>({currentAppointment: null})),
     timeSlots: {},
     getOpenTimeslots: (dt: Date, serviceType) => {
         const d = dt.toString();
@@ -74,9 +79,12 @@ const useServiceStore = create((set) => ({
         }
     },
     message: '',
-    healthCheck: async ()=>{
+    setMessage: (msg: string) => {
+        set(state => ({message: msg}))
+    },
+    healthCheck: async () => {
         const msg = await api.healthCheck();
-        set((state)=>({message: msg}))
+        set((state) => ({message: msg}))
     }
 }))
 

@@ -20,17 +20,22 @@ interface OwnProps {
 
 type Props = OwnProps;
 
-const DateGrid: React.FC = ({   serviceType,
+const DateGrid: React.FC = ({
+                                message,
+                                setMessage,
+                                serviceType,
                                 isBooking,
                                 setIsBooking,
                                 provider,
                                 appointments,
+                                currentAppointment,
                                 addAppointment,
                                 getOpenTimeslots,
                                 timeSlots
                             }) => {
 
     console.log(isBooking)
+
     const [showTime, setShowTime] = useState(false)
     const [selectedDate, setSelectedDate] = useState(new Date())
     const wrapperStyle: React.CSSProperties = {
@@ -42,6 +47,12 @@ const DateGrid: React.FC = ({   serviceType,
     };
 
     const dateSelected = ({_d}) => {
+        setMessage('')
+        if (_d < new Date()) {
+            setMessage('Time travel is impossible. Please select a future date.')
+            return false;
+        }
+        console.log("we're here")
         setSelectedDate(_d)
         getOpenTimeslots(_d, serviceType)
         setShowTime(true)
@@ -55,9 +66,10 @@ const DateGrid: React.FC = ({   serviceType,
                       justifyContent: 'center',
                       alignContent: 'center'
                   }}>
+                <div style={{color: 'palevioletred'}}>{message}</div>
                 <Layout>
                     <Content>
-                        {(!isBooking && appointments.length && provider) ?
+                        {(!isBooking && currentAppointment && provider) ?
                             <div style={{minWidth: '100%', margin: '0 25px', display: 'block'}}>
                                 <h2>Your appointment with {provider?.profile?.name} is on:</h2>
                                 <h4>{appointments[appointments.length - 1].date} @ {appointments[appointments.length - 1].time}</h4>
