@@ -160,4 +160,4 @@ export default [{
     updatedAt: "2013-12-18T18:29:08.504Z"
 }]
 
-export const preamble = (t)=>(`Welcome to The Portal! From here, you can get access to the ${t} you need. To start, select a provider by selecting a map point, or clicking on a provider name below and you will be able to book your appointment at the most convenient time for you. Your choice of appointment will be relayed to the provider directly.`)
+export const preamble = (t:string)=>(`Welcome to The Portal! From here, you can get access to the ${t} you need. To start, select a provider by selecting a map point, or clicking on a provider name below and you will be able to book your appointment at the most convenient time for you. Your choice of appointment will be relayed to the provider directly.`)
