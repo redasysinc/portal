@@ -28,7 +28,7 @@ function Therapy({service, providerIndex}) {
     useEffect(() => {
         setServiceType(service)
         if(!message){
-            healthCheck()
+            //healthCheck()
         }
 
     }, [message]);
