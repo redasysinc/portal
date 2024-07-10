@@ -6,7 +6,6 @@ import Site from "./components/Layout/Site";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './custom-theme.css'
-import Therapy from "./components/Therapy/Therapy.tsx";
 import Service from "./components/Service/Service.tsx";
 
 AOS.init();
