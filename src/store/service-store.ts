@@ -26,12 +26,16 @@ export interface ITherapyStore {
 
 const useServiceStore = create((set) => ({
     serviceType: null,
-    setServiceType: s => {
-        set((state) => ({serviceType: s}));
-    },
+    setServiceType: s => set((state) => (state.serviceType !== s ? {
+        provider: null,
+        isBooking: false,
+        appointments: [],
+        currentAppointment: null,
+        serviceType: s
+    } : {serviceType: s})),
     provider: null,
     setProvider: (prof: any) => {
-        set((state) => ({provider: prof}))
+        set((state) => ({provider: prof, isBooking: false, currentAppointment: null}))
     },
     isBooking: false,
     setIsBooking: (value: Boolean) => {
@@ -45,10 +49,10 @@ const useServiceStore = create((set) => ({
     appointments: [],
     addAppointment: (apt: { date: string; provider: any; patient: {}; time: any; type: any }) => {
         console.log('addApt', apt)
-        set((state)=>({currentAppointment: apt}))
+        set((state) => ({currentAppointment: apt}))
         set((state) => ({appointments: [...state.appointments, apt]}))
     },
-    resetAppointment: ()=>set((state)=>({currentAppointment: null})),
+    resetAppointment: () => set((state) => ({currentAppointment: null})),
     timeSlots: {},
     getOpenTimeslots: (dt: Date, serviceType) => {
         const d = dt.toString();

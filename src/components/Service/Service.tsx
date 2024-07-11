@@ -1,7 +1,7 @@
 /* tslint.disable */
 // @ts-nocheck
 // @ts-ignore
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {Row, Col, Layout, Card, List, Button} from 'antd'
 import ProviderMapbox from "../Mapbox/ProviderMapbox.tsx";
 import {consecutiveUniqueRandom} from "unique-random";
@@ -11,10 +11,12 @@ import useServiceStore from "../../store/service-store.ts";
 import therapists, {preamble} from "./therapists.ts";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import {stringValue, stringvALUE} from "../../types/appointment.ts";
 
 const {Content, Header, Footer, Sider} = Layout
 
-function Service({service, providerIndex}) {
+function Service({service}) {
+
     const {
         message,
         setMessage,
@@ -48,7 +50,7 @@ function Service({service, providerIndex}) {
             //healthCheck()
         }
 
-    }, [message]);
+    }, [serviceType, provider, service]);
 
     return (
         <>
@@ -70,8 +72,6 @@ function Service({service, providerIndex}) {
                                     <div>
                                         <Button style={{marginRight: '30px'}} type={'danger'} onClick={() => {
                                             setProvider(null)
-                                            setIsBooking(false)
-                                            resetAppointment()
                                         }}>Reset</Button>
                                         <Button style={{marginRight: '30px'}} type={'primary'} onClick={() => {
                                             console.log('click')
@@ -85,7 +85,7 @@ function Service({service, providerIndex}) {
                         <Card style={{
                             fontSize: '1.75rem',
                             margin: '0 auto 0 5px'
-                        }}>{preamble(service)}</Card>}
+                        }}>{preamble(stringValue(service))}</Card>}
                 </Col>
                 {(isBooking || (!isBooking && currentAppointment)) &&
                     <DateGrid
