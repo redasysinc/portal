@@ -1,22 +1,22 @@
 // @ts-nocheck
 import {create} from 'zustand';
 import {User} from "../types/user.ts";
-import {Appointment} from "../types/appointment.ts";
+import {Appointment, AppointmentType} from "../types/appointment.ts";
 import {TimeSlot} from "../types/time-slot.ts";
 import api from '../api/api';
 
-export interface ITherapyStore {
-    healthCheck: Function,
-    message: string,
+export interface IServiceStore {
+    healthCheck?: Function,
+    message?: string,
     setMessage: Function,
-    serviceType?: string,
-    setServiceType: Function,
+    serviceType?: AppointmentType,
+    setServiceType?: Function,
     provider?: any,
-    setProvider: Function,
+    setProvider?: Function,
     isBooking: Boolean,
     setIsBooking: Function,
     user?: User,
-    setUser: Function,
+    setUser?: Function,
     appointments?: Appointment[],
     currentAppointment?: Appointment,
     addAppointment: Function,
@@ -24,7 +24,7 @@ export interface ITherapyStore {
     timeSlots: TimeSlot[],
 }
 
-const useServiceStore = create((set) => ({
+const useServiceStore:any = create((set) => ({
     serviceType: null,
     setServiceType: s => set((state) => (state.serviceType !== s ? {
         provider: null,

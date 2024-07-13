@@ -1,26 +1,14 @@
 // @ts-nocheck
 import React, {useState} from 'react';
-import {Row, Col, Layout, Card, List, Button} from 'antd'
-import {Calendar, theme} from 'antd';
+import {Row, Col, Layout, Card, Button} from 'antd'
+import {Calendar} from 'antd';
 import type {CalendarProps} from 'antd';
 import type {Dayjs} from 'dayjs';
-import useServiceStore from "../../store/service-store.ts";
-import {User} from "../../types/user.ts";
-import {IProfessional} from "../../types/iprofessional.ts";
-import {AppointmentType} from "../../types/appointment.ts";
+import {IServiceStore} from "../../store/service-store.ts";
 
-const onPanelChange = (value: Dayjs, mode: CalendarProps<Dayjs>['mode']) => {
-    console.log(value.format('YYYY-MM-DD'), mode);
-};
+const {Content} = Layout
 
-const {Content, Header, Footer, Sider} = Layout
-
-interface OwnProps {
-}
-
-type Props = OwnProps;
-
-const DateGrid: React.FC = ({
+const DateGrid: React.FC<IServiceStore> = ({
                                 message,
                                 setMessage,
                                 serviceType,
@@ -98,9 +86,7 @@ const DateGrid: React.FC = ({
                                 </div>
                                 : isBooking &&
                                 <div style={wrapperStyle}>
-                                    <Calendar fullscreen={false}
-                                              onSelect={dateSelected}
-                                              onPanelChange={onPanelChange}/>
+                                    <Calendar fullscreen={false} onSelect={dateSelected}/>
                                 </div>
                         }
 

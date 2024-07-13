@@ -1,7 +1,5 @@
-/* tslint.disable */
 // @ts-nocheck
-// @ts-ignore
-import React, {useEffect, useRef, useState} from 'react';
+import React, {LegacyRef, useEffect, useRef, useState} from 'react';
 import {useGeolocated} from "react-geolocated";
 import mapboxgl from 'mapbox-gl';
 import {consecutiveUniqueRandom} from 'unique-random'
@@ -15,7 +13,11 @@ const config = {
     userDecisionTimeout: 15000,
 }
 
-const ProviderMapbox: React.FC = ({selectMapItem}) => {
+interface ProviderMapboxProps {
+    selectMapItem: Function
+}
+
+const ProviderMapbox: React.FC<ProviderMapboxProps> = ({selectMapItem}) => {
     const mapContainerRef = useRef();
     const mapRef = useRef();
     const random = consecutiveUniqueRandom(-1000, 1000);
@@ -33,7 +35,6 @@ const ProviderMapbox: React.FC = ({selectMapItem}) => {
     const {lat, lng} = center
     useEffect(() => {
         mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
-
         mapRef.current = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v12',
