@@ -25,7 +25,7 @@ export interface IServiceStore {
     timeSlots: TimeSlot[],
 }
 
-const useServiceStore:any = create((set) => ({
+const useServiceStore: any = create((set) => ({
     serviceType: null,
     setServiceType: s => set((state) => (state.serviceType !== s ? {
         provider: null,
@@ -48,9 +48,9 @@ const useServiceStore:any = create((set) => ({
     },
     currentAppointment: null,
     appointments: [],
-    getAppointments: async (userName:String)=>{
-      const res = await api.getAppointments(userName)
-      set((state)=>({...state, appointments:res}))
+    getAppointments: async (userName: String) => {
+        const res = await api.getAppointments(userName)
+        set((state) => ({...state, appointments: res}))
     },
     addAppointment: (apt: { date: string; provider: any; patient: {}; time: any; type: any }) => {
         console.log('addApt', apt)

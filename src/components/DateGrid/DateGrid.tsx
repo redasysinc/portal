@@ -24,7 +24,7 @@ const DateGrid: React.FC<IServiceStore> = ({
                                                timeSlots
                                            }) => {
 
-    console.log(isBooking)
+
     const colors = [volcano, lime, purple, geekblue, cyan]
     const [showTime, setShowTime] = useState(false)
     const [selectedDate, setSelectedDate] = useState(new Date())
@@ -42,11 +42,9 @@ const DateGrid: React.FC<IServiceStore> = ({
             setMessage('Time travel is impossible. Please select a future date.')
             return false;
         }
-        console.log("we're here")
         setSelectedDate(_d)
         getOpenTimeslots(_d, serviceType)
         setShowTime(true)
-        console.log(timeSlots)
     }
 
     const renderCalendarDay = (value: Dayjs) => {
@@ -56,7 +54,7 @@ const DateGrid: React.FC<IServiceStore> = ({
             <ul className={"dailySchedule"}>
                 {appts.map((item) => (
                     <li key={item.date}>
-                        <Badge status={'default'} color={colors[serviceType]} text={item.date.split(' ')[1]}/>
+                        <Badge status={'default'} color={colors[serviceType]} text={`${item.date.split(' ')[1]}: ${item.provider.profile.name}`}/>
                     </li>
                 ))}
             </ul>
@@ -77,7 +75,7 @@ const DateGrid: React.FC<IServiceStore> = ({
                         {(!isBooking && currentAppointment && provider) ?
                             <div style={{minWidth: '100%', margin: '0 25px', display: 'block'}}>
                                 <h2>Your appointment with {provider?.profile?.name} is on:</h2>
-                                <h4>{appointments[appointments.length - 1].date} @ {appointments[appointments.length - 1].time}</h4>
+                                <h4>{currentAppointment.date}</h4>
                             </div>
                             : showTime ?
 
@@ -87,10 +85,15 @@ const DateGrid: React.FC<IServiceStore> = ({
                                         return <Button key={i} shape={'round'} onClick={(e) => {
                                             const arr = x.time.split(':')
                                             selectedDate.setHours(parseInt(arr[0]), parseInt(arr[1]))
+                                            const apDate = `${selectedDate.toLocaleDateString('en-us')} ${x.time}`
+                                            if (appointments?.filter(x => (x.date === apDate)).length) {
+                                                setMessage('You already have an appointment at that time.')
+                                                return false;
+                                            }
                                             console.log('selectedDate', selectedDate)
                                             addAppointment({
                                                 type: serviceType,
-                                                date: `${selectedDate.toLocaleDateString('en-us')} ${x.time}`,
+                                                date: apDate,
                                                 patient: defaultUser,
                                                 provider: provider
                                             })
@@ -101,14 +104,12 @@ const DateGrid: React.FC<IServiceStore> = ({
                                     })}
                                     <Button type={'primary'} onClick={() => {
                                         setShowTime(false)
-                                    }}>Pick another date</Button>
+                                    }} disables={currentAppointment}>Pick another date</Button>
                                 </div>
                                 : isBooking &&
                                 <div style={wrapperStyle}>
-                                    <Calendar fullscreen={false} onSelect={dateSelected}/>
-                                </div>
-                        }
-
+                                    <Calendar fullscreen={false} onSelect={dateSelected} cellRender={renderCalendarDay}/>
+                                </div>}
                     </Content>
                 </Layout>
             </Card>
