@@ -52,10 +52,11 @@ const useServiceStore: any = create((set) => ({
         const res = await api.getAppointments(userName)
         set((state) => ({...state, appointments: res}))
     },
-    addAppointment: (apt: { date: string; provider: any; patient: {}; time: any; type: any }) => {
+    addAppointment: async (apt: { date: string; provider: any; patient: {}; time: any; type: any }) => {
         console.log('addApt', apt)
-        set((state) => ({currentAppointment: apt}))
-        set((state) => ({appointments: [...state.appointments, apt]}))
+        await api.saveAppointment(apt)
+        set((state) => ({...state, currentAppointment: apt}))
+        set((state) => ({...state, appointments: [...state.appointments, apt]}))
     },
     resetAppointment: () => set((state) => ({currentAppointment: null})),
     timeSlots: {},
