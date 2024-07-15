@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import {Button, Card, Col, Layout, List, Row} from 'antd'
-import {cyan, geekblue, lime, magenta, purple, volcano} from "@ant-design/colors";
+import {cyan, geekblue, lime, purple, volcano} from "@ant-design/colors";
 import ProviderMapbox from "../Mapbox/ProviderMapbox.tsx";
 import {consecutiveUniqueRandom} from "unique-random";
 import {ClockCircleTwoTone} from "@ant-design/icons";
@@ -60,8 +60,8 @@ const Service: React.FC<ServiceProps> = ({service}) => {
             getOpenTimeslots
         } = useServiceStore() || {}
     const random = consecutiveUniqueRandom(0, therapists.length - 1);
-    const selectMapItem = () => {
-        const v = therapists[random()]
+    const selectMapItem = (p) => {
+        const v = p.profile?p:therapists[random()]
         console.log(v)
         setProvider(v)
     }
@@ -74,7 +74,7 @@ const Service: React.FC<ServiceProps> = ({service}) => {
             setServiceType(service)
         }
         if (appointments && !appointments?.length) {
-            //getAppointments('JSmith')
+            getAppointments('JSmith')
         }
         if (!message) {
             //healthCheck()
@@ -141,7 +141,7 @@ const Service: React.FC<ServiceProps> = ({service}) => {
                                           <div style={{marginBottom: '15px', fontWeight: 500}} onClick={() => {
                                               const p = therapists.filter(x => (x.profile.name === item))[0]
                                               console.log(item)
-                                              setProvider(p)
+                                              selectMapItem(p)
                                           }}>{item}</div>
                                       )}
                                 />

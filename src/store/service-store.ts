@@ -20,6 +20,7 @@ export interface IServiceStore {
     appointments?: Appointment[],
     currentAppointment?: Appointment,
     addAppointment: Function,
+    getAppointments: Function,
     getOpenTimeslots: Function,
     timeSlots: TimeSlot[],
 }
@@ -47,6 +48,10 @@ const useServiceStore:any = create((set) => ({
     },
     currentAppointment: null,
     appointments: [],
+    getAppointments: async (userName:String)=>{
+      const res = await api.getAppointments(userName)
+      set((state)=>({...state, appointments:res}))
+    },
     addAppointment: (apt: { date: string; provider: any; patient: {}; time: any; type: any }) => {
         console.log('addApt', apt)
         set((state) => ({currentAppointment: apt}))
