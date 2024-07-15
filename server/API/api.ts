@@ -2,6 +2,8 @@ import axios from 'axios';
 import Router from '@koa/router';
 import os from "os";
 import Doclist from "../data/doclist.ts";
+import db from '../data/repository'
+import koaBody from "koa-body";
 
 const _ = Router();
 
@@ -59,4 +61,16 @@ _.get('/api/mental', async (ctx, next) => {
         console.error(error);
     }
 });
+
+_.get('/api/appointments', async (ctx, next) => {
+    console.log(ctx.query?.userName)
+    ctx.body = await db.getAppointments(ctx.query?.userName)
+})
+
+_.post('/api/appointments', koaBody(), async (ctx, next) => {
+    const appointment = JSON.parse(ctx.request.body['appointment'])
+    console.log('API', appointment)
+    ctx.body = await db.saveAppointment(appointment);
+
+})
 export default _;

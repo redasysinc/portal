@@ -1,29 +1,31 @@
 // @ts-nocheck
 import React, {useState} from 'react';
-import {Row, Col, Layout, Card, Button} from 'antd'
+import {Col, Layout, Card, Button} from 'antd'
+import {cyan, geekblue, lime, magenta, purple, volcano} from "@ant-design/colors";
 import {Calendar} from 'antd';
 import type {CalendarProps} from 'antd';
 import type {Dayjs} from 'dayjs';
 import {IServiceStore} from "../../store/service-store.ts";
+import {defaultUser} from "../../types/user.ts";
 
 const {Content} = Layout
 
 const DateGrid: React.FC<IServiceStore> = ({
-                                message,
-                                setMessage,
-                                serviceType,
-                                isBooking,
-                                setIsBooking,
-                                provider,
-                                appointments,
-                                currentAppointment,
-                                addAppointment,
-                                getOpenTimeslots,
-                                timeSlots
-                            }) => {
+                                               message,
+                                               setMessage,
+                                               serviceType,
+                                               isBooking,
+                                               setIsBooking,
+                                               provider,
+                                               appointments,
+                                               currentAppointment,
+                                               addAppointment,
+                                               getOpenTimeslots,
+                                               timeSlots
+                                           }) => {
 
     console.log(isBooking)
-
+    const colors = [volcano, lime, purple, geekblue, cyan]
     const [showTime, setShowTime] = useState(false)
     const [selectedDate, setSelectedDate] = useState(new Date())
     const wrapperStyle: React.CSSProperties = {
@@ -46,6 +48,21 @@ const DateGrid: React.FC<IServiceStore> = ({
         setShowTime(true)
         console.log(timeSlots)
     }
+
+    const renderCalendarDay = (value: Dayjs) => {
+        var appts = appointments?.filter((a) => (value.date() === parseInt(a.date.split('/')[1])))
+        console.log(value.date(), appts)
+        return (
+            <ul className={"dailySchedule"}>
+                {appts.map((item) => (
+                    <li key={item.date}>
+                        <Badge status={'default'} color={colors[serviceType]} text={item.date.split(' ')[1]}/>
+                    </li>
+                ))}
+            </ul>
+        )
+    }
+
     return (
         <Col span={12}>
             <Card title={<div style={{margin: '0 25px'}}>When would you like to come in?</div>}
@@ -68,11 +85,13 @@ const DateGrid: React.FC<IServiceStore> = ({
                                     <h3>{selectedDate.toLocaleDateString('en-us')}</h3>
                                     {timeSlots.map((x, i) => {
                                         return <Button key={i} shape={'round'} onClick={(e) => {
+                                            const arr = x.time.split(':')
+                                            selectedDate.setHours(parseInt(arr[0]), parseInt(arr[1]))
+                                            console.log('selectedDate', selectedDate)
                                             addAppointment({
-                                                type: 0,
-                                                date: selectedDate.toLocaleDateString('en-us'),
-                                                time: x.time,
-                                                patient: {},
+                                                type: serviceType,
+                                                date: `${selectedDate.toLocaleDateString('en-us')} ${x.time}`,
+                                                patient: defaultUser,
                                                 provider: provider
                                             })
                                             setShowTime(false)

@@ -16,9 +16,8 @@ export default {
       return data;
     },
     getMedicalProfessionals : async () => {
-        return data;
-        // const result = await axios.get(`/doclist`)
-       // return result.data;
+        const result = await axios.get(`/doclist`)
+        return result.data;
     },
     getProfessional: async (npi:string) =>{
         return data.filter(x=>x.NPI === npi)[0]
@@ -26,5 +25,16 @@ export default {
 
         // localStorage.setItem(npi, JSON.stringify(result))
         // return result;
+    },
+    getAppointments: async (userName: string)=>{
+        const result = await axios.get(`/appointments?userName=${userName}`)
+        console.log(result)
+        return result.data
+    },
+    saveAppointment: async (appointment:any)=>{
+        console.log("I'm saving....", appointment)
+        const result = await axios.post('appointments', {appointment: JSON.stringify(appointment)})
+        console.log(result)
+        return result.data;
     }
 }

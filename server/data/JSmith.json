@@ -1,0 +1,40 @@
+[
+  {
+    "type": 0,
+    "date": "7/15/2024 09:45",
+    "patient": {
+      "id": 1,
+      "userName": "JSmith",
+      "firstName": "Joe",
+      "middle": "",
+      "lastName": "Smith",
+      "address": "140 Evergreen Ave Folsom Pa 19026",
+      "phone": "610.461.2451",
+      "gender": "M",
+      "dob": "1978-12-15T05:00:00.000Z",
+      "appointments": []
+    },
+    "provider": {
+      "id": "668cb7c89f5df873d9415634",
+      "email": "dr_nunez_cunningham_md@twiggery.photos",
+      "roles": [
+        "guest"
+      ],
+      "apiKey": "cdd3bf27-054d-4b4f-84b1-26f215be1b57",
+      "profile": {
+        "dob": "1992-01-21",
+        "name": "Dr. Nunez Cunningham MD",
+        "about": "Nulla velit adipisicing enim elit pariatur eiusmod laborum nostrud nostrud id est. Duis sunt aliqua do minim.",
+        "address": "63 Hancock Street, Trail, Georgia",
+        "company": "Twiggery Therapeutics",
+        "location": {
+          "lat": 60.155779,
+          "long": 39.171001
+        }
+      },
+      "username": "dr92",
+      "createdAt": "2014-06-20T16:33:05.731Z",
+      "updatedAt": "2014-06-21T16:33:05.731Z"
+    }
+  }
+]
