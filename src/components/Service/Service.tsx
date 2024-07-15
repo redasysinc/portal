@@ -60,8 +60,8 @@ const Service: React.FC<ServiceProps> = ({service}) => {
             getOpenTimeslots
         } = useServiceStore() || {}
     const random = consecutiveUniqueRandom(0, therapists.length - 1);
-    const selectMapItem = (p) => {
-        const v = p.profile?p:therapists[random()]
+    const selectMapItem = () => {
+        const v =therapists[random()]
         console.log(v)
         setProvider(v)
     }
@@ -125,6 +125,7 @@ const Service: React.FC<ServiceProps> = ({service}) => {
                         isBooking={isBooking} setIsBooking={setIsBooking}
                         provider={provider}
                         appointments={appointments}
+                        getAppointments={getAppointments}
                         currentAppointment={currentAppointment}
                         addAppointment={addAppointment}
                         getOpenTimeslots={getOpenTimeslots}
@@ -141,7 +142,7 @@ const Service: React.FC<ServiceProps> = ({service}) => {
                                           <div style={{marginBottom: '15px', fontWeight: 500}} onClick={() => {
                                               const p = therapists.filter(x => (x.profile.name === item))[0]
                                               console.log(item)
-                                              selectMapItem(p)
+                                              setProvider(p)
                                           }}>{item}</div>
                                       )}
                                 />
