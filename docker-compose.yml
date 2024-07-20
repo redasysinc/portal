@@ -1,23 +1,29 @@
 services: # services which our app going to use. (list of containers we want to create)
-  mongodb: # container name
-    image: mongo # On which image container will build
-    ports:
-      - "27017:27017"
-    networks: # adding network
-      - portal-backend
-    volumes:
-      - mongo-data:/data/db
-
   portal:
     build: .
+#    volumes:
+#      - "./server:/usr/portal/server"
     image: portal-backend
     ports:
       - "8080:8080"
-      - "5713:5713"
     networks: # adding network
       - portal-backend
     depends_on:
       - mongodb
+
+  mongodb: # container name
+    image: mongo # On which image container will build
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: 'root'
+      MONGO_INITDB_ROOT_PASSWORD: 'passw0rd'
+    networks: # adding network
+      - portal-backend
+#    volumes:
+#      - mongo-data:/data/db
+
+
 
 networks:
   portal-backend:

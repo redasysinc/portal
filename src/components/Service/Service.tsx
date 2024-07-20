@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Button, Card, Col, Layout, List, Row} from 'antd'
 import {cyan, geekblue, lime, purple, volcano} from "@ant-design/colors";
 import ProviderMapbox from "../Mapbox/ProviderMapbox.tsx";
@@ -6,7 +6,7 @@ import {consecutiveUniqueRandom} from "unique-random";
 import {ClockCircleTwoTone} from "@ant-design/icons";
 import DateGrid from '../DateGrid/DateGrid'
 import useServiceStore from "../../store/service-store.ts";
-import therapists, {preamble} from "./therapists.ts";
+import {preamble} from "./therapists.ts";
 import 'aos/dist/aos.css';
 import {AppointmentType, stringValue} from "../../types/appointment.ts";
 import {changeAntdTheme} from "mini-dynamic-antd-theme";
@@ -49,6 +49,8 @@ const Service: React.FC<ServiceProps> = ({service}) => {
             serviceType,
             setServiceType,
             provider,
+            providers,
+            getProviders,
             setProvider,
             isBooking,
             setIsBooking,
@@ -59,27 +61,43 @@ const Service: React.FC<ServiceProps> = ({service}) => {
             timeSlots,
             getOpenTimeslots
         } = useServiceStore() || {}
-    const random = consecutiveUniqueRandom(0, therapists.length - 1);
+    const [therapists, setTherapists] = useState(providers || [])
+    const getRandom = () => (consecutiveUniqueRandom(0, therapists?.length - 1))
+
     const selectMapItem = () => {
-        const v =therapists[random()]
+        const random = getRandom()
+        const i = random()
+        console.log(i)
+        const v = therapists[i]
         console.log(v)
         setProvider(v)
     }
-    const ds = therapists.slice(0, 5).map(x => {
+
+
+    const ds = therapists?.slice(0, 5).map(x => {
         return x.profile.name
     })
 
+
     useEffect(() => {
-        if(setServiceType instanceof Function) {
+        if (setServiceType instanceof Function) {
             setServiceType(service)
         }
         if (appointments && !appointments?.length) {
-            getAppointments('JSmith')
+            getAppointments('GCappelli')
         }
         if (!message) {
             //healthCheck()
         }
         setTheme(service)
+
+        const load = async () => {
+            await getProviders()
+        }
+
+        if (!providers?.length) load()
+
+
     }, [serviceType, setServiceType, provider, setProvider, service]);
 
     return (

@@ -1,5 +1,4 @@
 import axios from 'axios'
-import data from './doclist.ts'
 
 axios.defaults.baseURL = 'http://localhost:8080/api';
 
@@ -16,8 +15,9 @@ export default {
       return data;
     },
     getMedicalProfessionals : async () => {
-        const result = await axios.get(`/doclist`)
-        return result.data;
+        const result = await axios.get(`/`)
+        console.log('getMedicalProf', result)
+        return result.data
     },
     getProfessional: async (npi:string) =>{
         return data.filter(x=>x.NPI === npi)[0]
@@ -36,5 +36,23 @@ export default {
         const result = await axios.post('appointments', {appointment: JSON.stringify(appointment)})
         console.log(result)
         return result.data;
+    },
+    getUser: async (id)=>{
+        const result =  await axios.get(`/users?id=${id}`)
+        return result.data;
+    },
+    createUser: async (user:any)=>{
+        return await axios.post('user', {user: JSON.stringify(user)})
+    },
+    getProvider:async(id)=>{
+        const result = await axios.get(`/providers/${id}`)
+        return result.data;
+    },
+    createProvider: async (provider:any)=>{
+        const res = await axios.post('provider',{provider: JSON.stringify(provider)})
+        console.log(res.data)
+        return res.data
     }
+
+
 }

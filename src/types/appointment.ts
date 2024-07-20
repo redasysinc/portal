@@ -1,10 +1,9 @@
-import {User} from "./user.ts";
-
-export type Appointment = {
+import {IUser} from "./user.ts";
+export interface IAppointment {
     id?: Number,
     type: AppointmentType,
     date: string,
-    patient?: User,
+    patient?: IUser,
     provider: any
 }
 

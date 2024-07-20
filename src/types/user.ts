@@ -1,25 +1,29 @@
-export type User = {
-    id?: Number,
-    userName: string
-    firstName?: string,
-    middle?: string,
-    lastName?: string,
-    address?: string,
-    phone?:string,
-    gender?: string,
+import User from "../../server/data/schema/user.ts";
+
+export interface IUser {
+    userName: String
+    firstName?: String,
+    middle?: String,
+    lastName?: String,
+    address?: String,
+    phone?: String,
+    gender?: String,
     dob?: Date,
-    appointments?: Object[]
 }
 
-export const defaultUser = {
-    id: 1,
-    userName: 'JSmith',
-    firstName: 'Joe',
-        middle: '',
-        lastName: 'Smith',
-        address: '140 Evergreen Ave Folsom Pa 19026',
-        phone:'610.461.2451',
-        gender: 'M',
-        dob: new Date('12/15/1978'),
-        appointments: []
+export const defaultUser: IUser = {
+    userName: 'GCappelli',
+    firstName: 'Gearldine',
+    middle: '',
+    lastName: 'Cappelli',
+    address: '225 Forrest Moon Ct Dover De 19701',
+    phone: '302.555.6969',
+    gender: 'F',
+    dob: '4/7/1998'
 }
+
+
+
+
+
+

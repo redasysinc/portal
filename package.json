@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "homepage": "https://portal-blue-sigma.vercel.app",
   "scripts": {
+    "ui": "vite",
     "dev": "npx tsx server/index.ts | vite",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
@@ -15,7 +16,7 @@
   "dependencies": {
     "@ant-design/colors": "^7.1.0",
     "@ant-design/icons": "^5.3.7",
-    "@koa/cors": "*",
+    "@koa/cors": "^5.0.0",
     "@koa/router": "^12.0.1",
     "@mantine/core": "^7.11.1",
     "@mantine/hooks": "^7.11.1",
@@ -35,6 +36,9 @@
     "mapbox-gl": "^1.13.3",
     "mapbox-gl-geocoder": "^2.0.1",
     "mini-dynamic-antd-theme": "^0.5.5",
+    "mongoose": "^8.5.1",
+    "mongoose-crudl": "^1.1.2",
+    "mongoose-sequence": "^6.0.1",
     "os": "^0.1.2",
     "path": "^0.12.7",
     "react": "^18.3.1",
@@ -49,6 +53,8 @@
   "devDependencies": {
     "@emeks/antd-custom-theme-generator": "0.2.1",
     "@types/aos": "^3.0.7",
+    "@types/mongoose": "^5.11.97",
+    "@types/mongoose-sequence": "^3.0.11",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.13.1",
